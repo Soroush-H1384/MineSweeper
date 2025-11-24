@@ -6,6 +6,8 @@
 .block{
     -fx-min-width: 50px;
     -fx-min-height: 50px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 20px;
 }
 .block:hover{
     -fx-background-color: #648495;
@@ -15,4 +17,14 @@
 }
 .bombing-block{
     -fx-background-color: #147852;
+}
+HBox{
+    -fx-spacing: 2px;
+}
+VBox{
+    -fx-spacing: 2px;
+    -fx-border-width: 10px;
+    -fx-border-color: #ed8b29;
+    -fx-padding: 6px 6px 6px 6px;
+    -fx-max-height: 500px;
 }

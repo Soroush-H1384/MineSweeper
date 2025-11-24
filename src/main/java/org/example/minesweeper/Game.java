@@ -19,20 +19,50 @@ public class Game {
 
     public void makeBombArray() {
         for (int i = 0; i < getBomb(); i++) {
-            int iRandom = (int) (Math.random() * getHeight() );
-            int jRandom = (int) (Math.random() * getHeight() );
+            int iRandom = (int) (Math.random() * getHeight());
+            int jRandom = (int) (Math.random() * getHeight());
             if (getBombArray()[iRandom][jRandom] == 0) {
-                getBombArray()[iRandom][jRandom] = 1;
+                getBombArray()[iRandom][jRandom] = 9;
             }
+            for (int k = -1; k < 2; k++) {
+                for (int j = -1; j < 2; j++) {
+                    if (height > (iRandom + k) && (iRandom + k) >= 0 && height > (jRandom + j) && (jRandom + j) >= 0){
+                        if (bombArray[iRandom+k][jRandom+j] == 9){
+                            continue;
+                        }
+                        else {
+                            increaseBombArray(iRandom + k, jRandom + j);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void checkAround(int i, int j) {
+        i--;
+        j--;
+        for (int k = -1; k < 1; k++) {
+            for (int l = -1; l < 1; l++) {
+                if (i + k < 0 || i + k > height || j + k < 0 || j + k > height) {
+                    continue;
+                } else if (getBombArray()[i + k][j + l] == 0) {
+                    checkAround(i + k, j + l);
+                }
+            }
+
         }
     }
 
     public int[][] getBombArray() {
         return bombArray;
     }
+    public void setOneOfBombArray(int i,int j,int number){
+        this.bombArray[i][j] = number;
+    }
 
-    public void setBombArray(int[][] bombArray) {
-        this.bombArray = bombArray;
+    public void increaseBombArray(int i, int j) {
+        this.bombArray[i][j]++;
     }
 
     public int getBomb() {
@@ -49,5 +79,9 @@ public class Game {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public void setBombArray(int[][] bombArray) {
+        this.bombArray = bombArray;
     }
 }
