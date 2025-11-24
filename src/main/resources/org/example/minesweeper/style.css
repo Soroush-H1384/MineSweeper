@@ -1,0 +1,18 @@
+
+.unselected-block{
+    -fx-background-color: #135468;
+
+}
+.block{
+    -fx-min-width: 50px;
+    -fx-min-height: 50px;
+}
+.block:hover{
+    -fx-background-color: #648495;
+}
+.empty-block{
+    -fx-background-color: #991122;
+}
+.bombing-block{
+    -fx-background-color: #147852;
+}
