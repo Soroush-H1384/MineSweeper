@@ -8,6 +8,8 @@
     -fx-min-height: 50px;
     -fx-background-radius: 5px;
     -fx-font-size: 20px;
+
+
 }
 .block:hover{
     -fx-background-color: #648495;
@@ -17,6 +19,10 @@
 }
 .bombing-block{
     -fx-background-color: #147852;
+    -fx-background-image: url("bomb.png");
+    -fx-background-size: 40px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
 }
 HBox{
     -fx-spacing: 2px;

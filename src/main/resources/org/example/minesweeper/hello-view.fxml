@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.minesweeper.HelloController">
+<BorderPane fx:id="mainPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.minesweeper.HelloController">
    <top>
-      <HBox alignment="CENTER" prefHeight="53.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_LEFT" prefHeight="89.0" prefWidth="500.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="scoreBoardOne" alignment="CENTER" prefHeight="45.0" prefWidth="60.0" text="0" />
-            <Button fx:id="timeButton" mnemonicParsing="false" onAction="#startTime" prefHeight="45.0" prefWidth="125.0" text="Start" />
+            <HBox alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="80.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@bomb.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="scoreBoardOne" alignment="CENTER" prefHeight="45.0" prefWidth="60.0" text="0">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox>
+               <children>
+                  <Button fx:id="timeButton" mnemonicParsing="false" onAction="#startTime" prefHeight="50.0" prefWidth="126.0" text="Start" />
+                  <Label fx:id="timeLabel" prefHeight="44.0" prefWidth="128.0" text="Label" />
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </VBox>
             <Label fx:id="scoreBoardTwo" alignment="CENTER" prefHeight="45.0" prefWidth="60.0" text="0" />
-            <Label fx:id="timeLabel" prefHeight="42.0" prefWidth="46.0" text="Label" />
          </children>
+         <padding>
+            <Insets bottom="10.0" left="20.0" right="20.0" />
+         </padding>
       </HBox>
    </top>
    <center>

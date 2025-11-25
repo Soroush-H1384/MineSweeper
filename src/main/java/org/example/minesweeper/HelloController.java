@@ -32,7 +32,7 @@ public class HelloController {
     @FXML
     private Button timeButton;
 
-    private Game game = new Game(9, 10);
+    private Game game = new Game(10,8, 15);
     private int Bomb = 0;
     private int empty = 0;
     private int count = 0;
@@ -59,12 +59,19 @@ public class HelloController {
                         button.getStyleClass().remove("unselected-block");
                         button.getStyleClass().add("bombing-block");
                         scoreBoardOne.setText(Integer.toString(++Bomb));
+                        showAllBomb();
 
-                    } else {
+                    }else if(0<game.getBombArray()[row][column] && game.getBombArray()[row][column] < 9){
                         button.getStyleClass().remove("unselected-block");
                         button.getStyleClass().add("empty-block");
                         scoreBoardTwo.setText(Integer.toString(++empty));
                         button.setText(Integer.toString(game.getBombArray()[row][column]));
+                    }
+                    else{
+                        button.getStyleClass().remove("unselected-block");
+                        button.getStyleClass().add("empty-block");
+                        scoreBoardTwo.setText(Integer.toString(++empty));
+//                        button.setText(Integer.toString(game.getBombArray()[row][column]));
                         checkAround(row,column);
                     }
                 });
@@ -104,20 +111,32 @@ public class HelloController {
             timeLine = new Timeline(
                     new KeyFrame(Duration.seconds(1), event -> {
                         count++;
-                        timeLabel.setText(Integer.toString(count));
+                        timeButton.setText(Integer.toString(count));
                     })
             );
         }
         timeLine.setCycleCount(Timeline.INDEFINITE);
         if (isTiming == true) {
             timeLine.play();
-            timeButton.setText("Stop");
+//            timeButton.setText("Stop");
 
         } else {
             timeLine.pause();
-            timeButton.setText("Start");
+//            timeButton.setText("Start");
         }
 
+
+
+    }
+
+    public void showAllBomb() {
+        for (int i =0;i< game.getHeight();i++){
+            for (int j =0;j< game.getWidth();j++){
+                if (game.getBombArray()[i][j] == 9){
+                    buttons[i][j].getStyleClass().add("bombing-block");
+                }
+            }
+        }
     }
 
 
