@@ -24,6 +24,12 @@
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }
+.flag-block{
+    -fx-background-image: url("flag.png");
+    -fx-background-size: 40px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
 HBox{
     -fx-spacing: 2px;
 }

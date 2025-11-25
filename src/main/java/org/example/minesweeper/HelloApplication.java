@@ -3,6 +3,7 @@ package org.example.minesweeper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,14 +20,6 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
-        Game game = new Game(9,9,10);
-        game.makeBombArray();
-        for (int i=0;i< game.getHeight();i++){
-            for (int j =0;j< game.getHeight();j++){
-                System.out.print(game.getBombArray()[i][j] + "|");
-            }
-            System.out.println();
-        }
         launch();
     }
 }
