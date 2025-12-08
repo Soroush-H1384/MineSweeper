@@ -39,19 +39,23 @@ public class HelloController {
 
     @FXML
     private Button timeButton;
-
-    private Game game = new Game(10, 8, 15);
+    private Stage stage;
+    private Game game;
     private int Bomb = 0;
     private int empty = 0;
     private int count = 0;
     private boolean isTiming = false;
     private Timeline timeLine;
-    private Button[][] buttons = new Button[game.getHeight()][game.getWidth()];
-    private boolean[][] visited = new boolean[game.getHeight()][game.getWidth()];
+    private Button[][] buttons ;
+    private boolean[][] visited ;
 
+    public HelloController(int height, int width,int bomb){
+        this.game = new Game(height,width,bomb);
+        this.buttons = new Button[game.getHeight()][game.getWidth()];
+        this.visited = new boolean[game.getHeight()][game.getWidth()];
+    }
 
     public void initialize() {
-
         game.makeBombArray();
         for (int i = 0; i < game.getHeight(); i++) {
             HBox hBox = new HBox();
@@ -171,12 +175,16 @@ public class HelloController {
     public void scorePopup() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("score-board.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(),400,200);
+        Scene scene = new Scene(fxmlLoader.load(), 400, 200);
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
 
         stage.show();
 
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
 
