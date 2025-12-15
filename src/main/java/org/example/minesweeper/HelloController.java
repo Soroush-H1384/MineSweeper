@@ -2,10 +2,8 @@ package org.example.minesweeper;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,9 +17,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
 
 public class HelloController {
     @FXML
@@ -31,32 +26,42 @@ public class HelloController {
     private VBox mainVBox;
 
     @FXML
-    private Label scoreBoardOne;
+    private Label selectedBlockCounter;
     @FXML
-    private Label scoreBoardTwo;
+    private Label flagCounter;
     @FXML
     private Label timeLabel;
-
     @FXML
     private Button timeButton;
+    @FXML
+    private Button blockShape;
     private Stage stage;
     private Game game;
     private int Bomb = 0;
-    private int empty = 0;
+    private int selectedBlock = 0;
     private int count = 0;
+    private int flag = 0;
     private boolean isTiming = false;
     private Timeline timeLine;
     private Button[][] buttons ;
     private boolean[][] visited ;
+    private boolean[][] isFlag;
+    private int height;
+    private int width;
+    private int bomb;
 
     public HelloController(int height, int width,int bomb){
+        this.height = height;
+        this.width = width;
+        this.bomb = bomb;
         this.game = new Game(height,width,bomb);
         this.buttons = new Button[game.getHeight()][game.getWidth()];
         this.visited = new boolean[game.getHeight()][game.getWidth()];
+        this.isFlag = new boolean[game.getHeight()][game.getWidth()];
     }
 
     public void initialize() {
-        game.makeBombArray();
+        clearVisited();
         for (int i = 0; i < game.getHeight(); i++) {
             HBox hBox = new HBox();
             for (int j = 0; j < game.getWidth(); j++) {
@@ -64,6 +69,7 @@ public class HelloController {
                 button.getStyleClass().addAll("block", "unselected-block");
                 buttons[i][j] = button;
                 visited[i][j] = false;
+                isFlag[i][j] = false;
                 int row = i;
                 int column = j;
                 buttons[i][j].setOnMouseClicked(e -> {
@@ -71,7 +77,6 @@ public class HelloController {
                         if (game.getBombArray()[row][column] == 9) {
                             button.getStyleClass().remove("unselected-block");
                             button.getStyleClass().add("bombing-block");
-                            scoreBoardOne.setText(Integer.toString(++Bomb));
                             visited[row][column] = true;
                             try {
                                 showAllBomb();
@@ -83,27 +88,34 @@ public class HelloController {
                         } else if (0 < game.getBombArray()[row][column] && game.getBombArray()[row][column] < 9) {
                             button.getStyleClass().remove("unselected-block");
                             button.getStyleClass().add("empty-block");
-                            scoreBoardTwo.setText(Integer.toString(++empty));
                             button.setText(Integer.toString(game.getBombArray()[row][column]));
+                            selectedBlockCounter.setText(Integer.toString(++selectedBlock));
                             visited[row][column] = true;
+                            if (selectedBlock == (game.getWidth() * game.getHeight()) - game.getBomb()){
+                                scorePopup();
+                            }
 
                         } else {
                             button.getStyleClass().remove("unselected-block");
                             button.getStyleClass().add("empty-block");
-                            scoreBoardTwo.setText(Integer.toString(++empty));
                             checkAround(row, column);
                             visited[row][column] = true;
 
                         }
                     } else if (e.getButton() == MouseButton.SECONDARY) {
-                        if (!visited[row][column]) {
+                        if (!isFlag[row][column] && !visited[row][column]) {
+                            isFlag[row][column] = true;
                             visited[row][column] = true;
                             button.getStyleClass().add("flag-block");
+                            flagCounter.setText(Integer.toString(++flag));
 
 
-                        } else {
+
+                        } else if(visited[row][column] && isFlag[row][column]) {
+                            isFlag[row][column] = false;
                             visited[row][column] = false;
                             button.getStyleClass().remove("flag-block");
+                            flagCounter.setText(Integer.toString(--flag));
                         }
                     }
 
@@ -125,12 +137,14 @@ public class HelloController {
                     continue;
                 } else if (game.getBombArray()[row + k][column + l] == 0 && !visited[row + k][column + l]) {
                     buttons[row + k][column + l].getStyleClass().addAll("empty-block");
+                    selectedBlockCounter.setText(Integer.toString(++selectedBlock));
                     visited[row + k][column + l] = true;
                     checkAround(row + k, column + l);
 
                 } else if (game.getBombArray()[row + k][column + l] != 9 && !visited[row + k][column + l]) {
                     buttons[row + k][column + l].setText(Integer.toString(game.getBombArray()[row + k][column + l]));
                     buttons[row + k][column + l].getStyleClass().addAll("empty-block");
+                    selectedBlockCounter.setText(Integer.toString(++selectedBlock));
                     visited[row + k][column + l] = true;
                 }
             }
@@ -172,19 +186,39 @@ public class HelloController {
         scorePopup();
     }
 
-    public void scorePopup() throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("score-board.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 400, 200);
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
+    public void scorePopup() {
+        try{
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("score-board.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            ScoreBoardController scoreBoardController = fxmlLoader.getController();
+            scoreBoardController.setHelloController(this);
+            scoreBoardController.setStage(stage);
+            stage.show();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        stage.show();
 
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void clearVisited(){
+        game.deleteBombArray();
+        mainVBox.getChildren().clear();
+        game.makeBombArray();
+        flag = 0;
+        selectedBlock = 0;
+        flagCounter.setText(Integer.toString(flag));
+        selectedBlockCounter.setText(Integer.toString(selectedBlock));
+
+
+
     }
 
 

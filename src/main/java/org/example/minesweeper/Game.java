@@ -11,12 +11,15 @@ public class Game {
         this.setBomb(bomb);
         this.setWidth(width);
         this.setBombArray(new int[height][height]);
+        deleteBombArray();
+
+    }
+    public void deleteBombArray(){
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < height; j++) {
                 setOneOfBombArray(i, j, 0);
             }
         }
-
     }
 
     public void makeBombArray() {

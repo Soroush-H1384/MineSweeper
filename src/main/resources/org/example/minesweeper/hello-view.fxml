@@ -12,18 +12,14 @@
 
 <BorderPane fx:id="mainPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <HBox alignment="CENTER_LEFT" prefHeight="89.0" prefWidth="500.0" spacing="50.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="89.0" prefWidth="500.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER">
                <children>
-                  <ImageView fitHeight="80.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@bomb.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="scoreBoardOne" alignment="CENTER" prefHeight="45.0" prefWidth="60.0" text="0">
+                  <Button fx:id="blockShape" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="unselected-block" textFill="#073b4c" />
+                  <Label fx:id="selectedBlockCounter" alignment="CENTER" prefHeight="45.0" prefWidth="60.0" text="0">
                      <font>
-                        <Font size="28.0" />
+                        <Font size="30.0" />
                      </font>
                   </Label>
                </children>
@@ -37,7 +33,20 @@
                   <Insets top="10.0" />
                </padding>
             </VBox>
-            <Label fx:id="scoreBoardTwo" alignment="CENTER" prefHeight="45.0" prefWidth="60.0" text="0" />
+            <HBox alignment="CENTER">
+               <children>
+                  <Label fx:id="flagCounter" alignment="CENTER" prefHeight="45.0" prefWidth="60.0" text="0">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="57.0" fitWidth="57.0">
+                     <image>
+                        <Image url="@flag.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="10.0" left="20.0" right="20.0" />
